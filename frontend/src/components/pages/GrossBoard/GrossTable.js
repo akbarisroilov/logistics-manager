@@ -10,7 +10,7 @@ import {
   getChoice,
   getFullName,
 } from "../../../functions/Functions";
-import { GROSS_STATUS, BUDGET_TYPE } from "../../../constants/constants";
+import { LOAD_STATUS, BUDGET_TYPE } from "../../../constants/constants";
 import { useState } from "react";
 
 const GrossTable = ({
@@ -104,7 +104,7 @@ const GrossTable = ({
                       : "rejected"
                   }
                 >
-                  {getChoice(log.status, GROSS_STATUS)}
+                  {getChoice(log.status, LOAD_STATUS)}
                 </td>
                 <td>{getChoice(log.budget_type, BUDGET_TYPE)}</td>
                 <td>{log.autobooker ? "yes" : ""}</td>

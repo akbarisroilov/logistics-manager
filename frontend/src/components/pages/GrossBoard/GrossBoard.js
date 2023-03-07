@@ -5,7 +5,7 @@ import GrossForm from "./GrossForm";
 import LoadUpdates from "./LoadUpdates";
 import useRequest from "../../../hooks/useRequest";
 import {
-  GROSS_URL,
+  LOADS_URL,
   DRIVERS_LIST_URL,
   DISPATCHERS_LIST_URL,
   USERS_LIST_URL,
@@ -15,7 +15,7 @@ import Loading from "../../common/Loading";
 
 const GrossBoard = () => {
   // const PAGE_SIZE = 18;
-  const request = useRequest(GROSS_URL);
+  const request = useRequest(LOADS_URL);
   const driversRequest = useRequest(DRIVERS_LIST_URL);
   const dispatchersRequest = useRequest(DISPATCHERS_LIST_URL);
   const usersRequest = useRequest(USERS_LIST_URL);

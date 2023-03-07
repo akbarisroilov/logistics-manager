@@ -4,8 +4,8 @@ import Form from "../../common/Form";
 import Loading from "../../common/Loading";
 import useRequest from "../../../hooks/useRequest";
 import {
-  GROSS_URL,
-  GROSS_STATUS,
+  LOADS_URL,
+  LOAD_STATUS,
   BUDGET_TYPE,
 } from "../../../constants/constants";
 import {
@@ -24,7 +24,7 @@ const LoadUpdates = ({
   closeUpdates,
   edit,
 }) => {
-  const request = useRequest(GROSS_URL + "?updates=" + edit.id);
+  const request = useRequest(LOADS_URL + "?updates=" + edit.id);
 
   useEffect(() => {
     request.getData();
@@ -188,7 +188,7 @@ const LoadUpdates = ({
                           : ""
                       }
                     >
-                      {getChoice(log.status, GROSS_STATUS)}
+                      {getChoice(log.status, LOAD_STATUS)}
                     </td>
                     <td
                       className={

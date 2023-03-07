@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import useRequest from "../../../hooks/useRequest";
 import LoadingButton from "../../common/LoadingButton";
 import {
-  GROSS_URL,
+  LOADS_URL,
   BUDGET_TYPE,
-  GROSS_STATUS,
+  LOAD_STATUS,
   STATES,
 } from "../../../constants/constants";
 import Form from "../../common/Form";
@@ -47,7 +47,7 @@ const GrossForm = ({
     ]);
   }
 
-  const { errors, postPutData, isLoading } = useRequest(GROSS_URL);
+  const { errors, postPutData, isLoading } = useRequest(LOADS_URL);
   const [errMsg, setErrMsg] = useState("");
   const [log, setLog] = useState(
     method === "PUT"
@@ -242,7 +242,7 @@ const GrossForm = ({
           />
           <Select
             name="status"
-            selections={GROSS_STATUS}
+            selections={LOAD_STATUS}
             isObject={true}
             value={log.status}
             label="Status*"

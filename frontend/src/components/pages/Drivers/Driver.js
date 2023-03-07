@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import useRequest from "../../../hooks/useRequest";
 import {
   DRIVERS_URL,
+  DRIVERS_PROGRESS_URL,
   DRIVER_TYPE,
   DRIVER_STATUS,
   ACTIVITY_RANGE,
@@ -21,8 +22,8 @@ const Driver = () => {
     to: "2023-02-19T00:00:00.000000-05:00",
   });
 
-  const activityRequest = useRequest(
-    `${DRIVERS_URL}?id=${params.id}&activity=True&from=${scale.from}&to=${scale.to}`
+  const progressRequest = useRequest(
+    `${DRIVERS_PROGRESS_URL}?id=${params.id}&from=${scale.from}&to=${scale.to}`
   );
 
   const handleScaleChange = ({ currentTarget: input }) => {
@@ -63,15 +64,15 @@ const Driver = () => {
       newScale["to"] = dateToString(to, "%y-%m-%dT00:00:00.000000-05:00");
     }
     setScale(newScale);
-    activityRequest.setUrl(
+    progressRequest.setUrl(
       `${DRIVERS_URL}?id=${params.id}&activity=True&from=${scale.from}&to=${scale.to}`
     );
-    activityRequest.getData();
+    progressRequest.getData();
   };
 
   useEffect(() => {
     request.getData();
-    activityRequest.getData();
+    progressRequest.getData();
   }, []);
 
   return (
@@ -176,12 +177,12 @@ const Driver = () => {
           </div>
         )
       )}
-      {!activityRequest.isLoading && (
+      {!progressRequest.isLoading && (
         <ActivityCart
           data={{
             from: scale.from,
             to: scale.to,
-            charts: activityRequest.data,
+            charts: progressRequest.data,
             colors: {
               rea: "red",
               cov: "lightgreen",

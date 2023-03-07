@@ -1,11 +1,12 @@
 export const DRIVERS_URL = "/api/drivers/";
+export const DRIVERS_PROGRESS_URL = "/api/drivers/progress";
 export const DRIVERS_LIST_URL = "/api/drivers/?list=True";
 export const USERS_URL = "/api/users/";
 export const USERS_LIST_URL = "/api/users/?list=True";
 export const DISPATCHERS_LIST_URL = "/api/users/?list=True&filter=DIS";
 export const CARRIERS_URL = "/api/carriers/";
 export const CARRIERS_LIST_URL = "/api/carriers/?list=True";
-export const GROSS_URL = "/api/gross/";
+export const LOADS_URL = "/api/loads/";
 
 export const ROLES = {
   Owner: "OWN",
@@ -54,10 +55,10 @@ export const BUDGET_TYPE = {
   R: "Recovery budget",
 };
 
-export const GROSS_STATUS = {
+export const LOAD_STATUS = {
   CO: "Covered",
   SO: "Sold",
-  TO: "Tonu",
+  TO: "Tonu", 
   RJ: "Rejected",
   RM: "Removed",
 };
