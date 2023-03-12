@@ -6,74 +6,85 @@ import {
   DRIVERS_PROGRESS_URL,
   DRIVER_TYPE,
   DRIVER_STATUS,
+  DRIVER_STATUS_COLOR,
   ACTIVITY_RANGE,
 } from "../../../constants/constants";
-import { fixDate, getChoice, dateToString } from "../../../functions/Functions";
+import { fixDate, getChoice, dateToString, stringToDateTime } from "../../../functions/Functions";
 import Loading from "../../common/Loading";
 import Select from "../../common/Select";
+import Input from "../../common/Input"
 import ActivityCart from "../../common/ActivityCart";
 
 const Driver = () => {
   const params = useParams();
   const request = useRequest(DRIVERS_URL + "?id=" + params.id);
+  
   const [scale, setScale] = useState({
-    choice: "r1",
-    from: "2023-02-17T00:00:00.000000-05:00",
-    to: "2023-02-19T00:00:00.000000-05:00",
+    choice: "r2",
+    from: stringToDateTime("beginning week & no time"),
+    to: stringToDateTime("today"),
   });
 
+  const [customScale, setCustomScale] = useState({
+    date_from: "",
+    date_to: ""
+  })
+
   const progressRequest = useRequest(
-    `${DRIVERS_PROGRESS_URL}?id=${params.id}&from=${scale.from}&to=${scale.to}`
+    `${DRIVERS_PROGRESS_URL}?id=${params.id}&from=${dateToString(scale.from, "%y-%m-%dT%H:%M:%S")}&to=${dateToString(scale.to, "%y-%m-%dT%H:%M:%S")}`
   );
 
   const handleScaleChange = ({ currentTarget: input }) => {
     const newScale = { ...scale };
     newScale[input.name] = input.value;
-    if (input.value == "r1") {
-      var d = new Date();
-      var from = new Date();
-      var to = new Date();
-      to.setTime(
-        d.getTime() - (d.getDay() ? d.getDay() : 7) * 24 * 60 * 60 * 1000
-      );
-      from.setTime(to.getTime() - 7 * 24 * 60 * 60 * 1000);
-      newScale["from"] = dateToString(from, "%y-%m-%dT00:00:00.000000-05:00");
-      newScale["to"] = dateToString(to, "%y-%m-%dT00:00:00.000000-05:00");
+    switch(input.value) {
+      case "r1":
+        newScale.from = stringToDateTime("beginning week & 7 days before & no time")
+        newScale.to = stringToDateTime("beginning week & no time")
+        break;
+      case "r2":
+        newScale.from = stringToDateTime("beginning week & no time")
+        newScale.to = stringToDateTime("today")
+        break;
+      case "r3":
+        newScale.from = stringToDateTime("beginning month & 1 month before & no time")
+        newScale.to = stringToDateTime("beginning month & no time")
+        break;
+      case "r4":
+        newScale.from = stringToDateTime("beginning month & no time")
+        newScale.to = stringToDateTime("today")
+        break;
+      default:
+        console.log("value is out of chices!!!")
     }
-    if (input.value == "r2") {
-      var from = new Date();
-      var to = new Date();
-      from.setTime(to.getTime() - 7 * 24 * 60 * 60 * 1000);
-      newScale["from"] = dateToString(from, "%y-%m-%dT00:00:00.000000-05:00");
-      newScale["to"] = dateToString(to, "%y-%m-%dT00:00:00.000000-05:00");
-    }
-    if (input.value == "r3") {
-      var d = new Date();
-      var from = new Date();
-      var to = new Date();
-      to.setTime(d.getTime() - d.getDate() * 24 * 60 * 60 * 1000);
-      from.setTime(to.getTime() - 30 * 24 * 60 * 60 * 1000);
-      newScale["from"] = dateToString(from, "%y-%m-%dT00:00:00.000000-05:00");
-      newScale["to"] = dateToString(to, "%y-%m-%dT00:00:00.000000-05:00");
-    }
-    if (input.value == "r4") {
-      var from = new Date();
-      var to = new Date();
-      from.setTime(to.getTime() - 30 * 24 * 60 * 60 * 1000);
-      newScale["from"] = dateToString(from, "%y-%m-%dT00:00:00.000000-05:00");
-      newScale["to"] = dateToString(to, "%y-%m-%dT00:00:00.000000-05:00");
-    }
-    setScale(newScale);
     progressRequest.setUrl(
-      `${DRIVERS_URL}?id=${params.id}&activity=True&from=${scale.from}&to=${scale.to}`
-    );
-    progressRequest.getData();
+      `${DRIVERS_URL}?id=${params.id}&activity=True&from=${dateToString(scale.from, "%y-%m-%dT%H:%M:%S")}&to=${dateToString(scale.to, "%y-%m-%dT%H:%M:%S")}`
+      );
+    setScale(newScale);
   };
+
+  const hanleCalendarChange = ({currentTarget: input}) => {
+    const newCustomScale = { ...customScale };
+    newCustomScale[input.name] = input.value;
+    setCustomScale(newCustomScale)
+  }
+
+  const getCustomData = () => {
+    if (customScale.date_from && customScale.date_to) {
+      const newScale = { ...scale };
+      newScale.from = stringToDateTime("tomorrow & no time", customScale.date_from)
+      newScale.to = stringToDateTime("tomorrow & no time", customScale.date_to)
+      setScale(newScale);
+    }
+  }
 
   useEffect(() => {
     request.getData();
+  }, [])
+
+  useEffect(() => {
     progressRequest.getData();
-  }, []);
+  }, [scale]);
 
   return (
     <div className="page-container">
@@ -177,34 +188,48 @@ const Driver = () => {
           </div>
         )
       )}
-      {!progressRequest.isLoading && (
+      {
+        progressRequest.isLoading ? <p>loading...</p> :
+      (
         <ActivityCart
           data={{
             from: scale.from,
             to: scale.to,
             charts: progressRequest.data,
-            colors: {
-              rea: "red",
-              cov: "lightgreen",
-              pre: "yellow",
-              hom: "blue",
-              enr: "green",
-              hol: "black",
-              res: "orange",
-              ina: "gray",
-            },
+            colors: DRIVER_STATUS_COLOR,
+            colorChoices: DRIVER_STATUS
           }}
         />
       )}
-      <Select
-        name="choice"
-        selections={ACTIVITY_RANGE}
-        isObject={true}
-        value={scale.choice}
-        label="Scale"
-        onChange={handleScaleChange}
-        error={""}
-      />
+      <div className="row"> 
+        <Select
+          name="choice"
+          selections={ACTIVITY_RANGE}
+          isObject={true}
+          value={scale.choice}
+          label="Quick choices"
+          onChange={handleScaleChange}
+          error={""}
+        />
+        <Input  
+          name="date_from"
+          type="date"
+          value={customScale.date_from} //dateToString(scale.from, "%y-%m-%d")
+          label="From"
+          onChange={hanleCalendarChange}
+          error={""}
+        />
+        <Input
+          name="date_to"
+          type="date"
+          value={customScale.date_to}
+          label="To"
+          onChange={hanleCalendarChange}
+          error={""}
+        />
+        <button className="button" onClick={getCustomData}>Get data</button>
+        <div></div>
+      </div>
     </div>
   );
 };

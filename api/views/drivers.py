@@ -61,8 +61,15 @@ def drivers(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def drivers_progress(request):
-    query = EditDriver.objects.values('status', 'edit_time').filter(driver_id=request.GET.get('id'), edit_time__gte=request.GET.get('from'), edit_time__lte=request.GET.get('to'))
+    t_from = request.GET.get('from')
+    t_to = request.GET.get('to')
+    driver_id = request.GET.get('id')
+    last_status = EditDriver.objects.values('status', 'edit_time').order_by("-edit_time").filter(driver_id=driver_id, edit_time__lt=t_from)[:1]
+    if not last_status:
+        last_status = [EditDriver(status='ina', edit_time=datetime.now())]
+    query = EditDriver.objects.values('status', 'edit_time').filter(driver_id=driver_id, edit_time__gte=t_from, edit_time__lte=t_to)
+    last_status_serializer = DriverActivitySerializer(last_status, many=True)
     serializer = DriverActivitySerializer(query, many=True)
     # 'from': datetime.strptime(request.GET.get('from'), '%Y-%M-%d'),
     # 'to': datetime.strptime(request.GET.get('to'), '%Y-%M-%d'),
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(last_status_serializer.data + serializer.data, status=status.HTTP_200_OK)

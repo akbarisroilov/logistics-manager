@@ -62,6 +62,7 @@ const useRequest = (url) => {
   };
 
   const getData = async () => {
+    console.log("request url **", url)
     setIsLoading(true);
     try {
       const response = await axios.get(url, {

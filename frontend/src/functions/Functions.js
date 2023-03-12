@@ -45,12 +45,75 @@ export const dateToString = (date, format) => {
     format = format.replace("%d", a);
   }
   // look for %H
-  // if (format.includes("%H")) {
-  //   var a = date.get() + 1;
-  //   format = format.replace("%H", a);
-  // }
+  if (format.includes("%H")) {
+    var a = date.getHours();
+    a = a < 10 ? "0" + a : a;
+    format = format.replace("%H", a);
+  }
+  // look for %M
+  if (format.includes("%M")) {
+    var a = date.getMinutes();
+    a = a < 10 ? "0" + a : a;
+    format = format.replace("%M", a);
+  }
+  // look for %S
+  if (format.includes("%S")) {
+    var a = date.getSeconds();
+    a = a < 10 ? "0" + a : a;
+    format = format.replace("%S", a);
+  }
   return format;
 };
+
+export const stringToDateTime = (str, initial) => {
+  /*
+  today
+  tomorrow
+  yesterday
+  n days before
+  n days later
+  n month before 
+  n month later
+  beginning week
+  beginning month
+  no time
+  */
+  let date = initial ? new Date(initial) : new Date();
+  let allArgs = str.split(" & ");
+
+  
+
+  for (let a of allArgs) {
+    let args = a.split(" ");
+
+    if (args.includes("today")) {
+      // changes nothing *
+    }
+    if (args.includes("tomorrow")) {
+      date.setDate(date.getDate() + 1)
+    }
+    
+    if (args.includes("beginning")) {
+      if (args[1] === "week") date.setDate(date.getDate() - date.getDay());
+      if (args[1] === "month") date.setDate(1);
+    }
+  
+    if (args[1] === "days") {
+      date.setDate(args[2] === "before" ? date.getDate() - parseInt(args[0]) : args[2] === "later" ? date.setDate(date.getDate() + parseInt(args[0])) : date.getDate());
+    }
+    if (args[1] === "month") {
+      date.setMonth(args[2] === "before" ? date.getMonth() - parseInt(args[0]) : args[2] === "later" ? date.setDate(date.getMonth() + parseInt(args[0])) : date.getMonth())
+    }
+
+    if (args[0] === "no") {
+      date.setHours(0)
+      date.setMinutes(0)
+      date.setSeconds(0)
+    }
+  }
+
+  return date;
+}
 
 export const getName = (id, list) => {
   for (let l of list) {

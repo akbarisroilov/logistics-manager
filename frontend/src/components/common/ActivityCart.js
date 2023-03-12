@@ -1,4 +1,4 @@
-import { fixDate } from "../../functions/Functions";
+import { fixDate, getChoice } from "../../functions/Functions";
 
 const ActivityCart = ({ data }) => {
   // const data = {
@@ -19,10 +19,10 @@ const ActivityCart = ({ data }) => {
   //     ready: "red",
   //   },
   // };
-  const convert = (t1, t2) => {
+  const convert = (index, t1, t2) => {
     var from = new Date(data.from).getTime();
     var to = new Date(data.to).getTime();
-    var t1 = new Date(t1).getTime();
+    var t1 = index ? new Date(t1).getTime() : from;
     var t2 = t2 === -1 ? to : new Date(t2).getTime();
     var scale = to - from;
     return {
@@ -37,6 +37,7 @@ const ActivityCart = ({ data }) => {
         <span className="time-end">{fixDate(data.to)}</span>
         {data.charts.map((e, index) => {
           var evars = convert(
+            index,
             e.edit_time,
             index === data.charts.length - 1
               ? -1
@@ -62,7 +63,7 @@ const ActivityCart = ({ data }) => {
                 className="box"
                 style={{ background: data.colors[s] }}
               ></span>
-              {s}
+              {data.colorChoices ? getChoice(s, data.colorChoices) : s}
             </div>
           );
         })}

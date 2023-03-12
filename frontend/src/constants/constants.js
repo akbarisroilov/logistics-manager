@@ -24,9 +24,9 @@ export const USER_ROLES = {
 
 export const ACTIVITY_RANGE = {
   r1: "last week",
-  r2: "one week",
+  r2: "this week",
   r3: "last month",
-  r4: "one month",
+  r4: "this month",
 };
 
 export const DRIVER_TYPE = {
@@ -49,6 +49,17 @@ export const DRIVER_STATUS = {
   ina: "Inactive",
 };
 
+export const DRIVER_STATUS_COLOR ={
+  rea: "rgb(247, 79, 79)",
+  cov: "rgb(15, 148, 0)",
+  pre: "rgb(227, 227, 82)",
+  hom: "rgb(56, 122, 235)",
+  enr: "rgb(56, 235, 119)",
+  hol: "rgb(97, 97, 97)",
+  res: "rgb(247, 176, 52)",
+  ina: "rgb(189, 189, 189)",
+}
+  
 export const BUDGET_TYPE = {
   D: "Driver's budget",
   L: "Lane budget",
