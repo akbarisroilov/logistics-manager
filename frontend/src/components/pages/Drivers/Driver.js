@@ -55,7 +55,7 @@ const Driver = () => {
         newScale.to = stringToDateTime("today")
         break;
       default:
-        console.log("value is out of chices!!!")
+        console.log("value is out of choices!!!")
     }
     progressRequest.setUrl(
       `${DRIVERS_URL}?id=${params.id}&activity=True&from=${dateToString(scale.from, "%y-%m-%dT%H:%M:%S")}&to=${dateToString(scale.to, "%y-%m-%dT%H:%M:%S")}`

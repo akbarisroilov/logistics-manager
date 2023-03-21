@@ -9,6 +9,7 @@ from .views.carriers import carriers
 from .views.drivers import drivers, drivers_progress
 from .views.users import users
 from .views.loads import loads
+from .views.trailers import trailers
 
 
 urlpatterns = [
@@ -21,5 +22,6 @@ urlpatterns = [
     path('users/', users),
     path('carriers/', carriers),
     path('loads/', loads),
+    path('trailers/', trailers),
 
 ]

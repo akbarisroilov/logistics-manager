@@ -1,12 +1,17 @@
 export const DRIVERS_URL = "/api/drivers/";
 export const DRIVERS_PROGRESS_URL = "/api/drivers/progress";
 export const DRIVERS_LIST_URL = "/api/drivers/?list=True";
+
 export const USERS_URL = "/api/users/";
 export const USERS_LIST_URL = "/api/users/?list=True";
 export const DISPATCHERS_LIST_URL = "/api/users/?list=True&filter=DIS";
+
 export const CARRIERS_URL = "/api/carriers/";
 export const CARRIERS_LIST_URL = "/api/carriers/?list=True";
+
 export const LOADS_URL = "/api/loads/";
+
+export const TRAILERS_URL = "/api/trailers/";
 
 export const ROLES = {
   Owner: "OWN",
@@ -49,7 +54,7 @@ export const DRIVER_STATUS = {
   ina: "Inactive",
 };
 
-export const DRIVER_STATUS_COLOR ={
+export const DRIVER_STATUS_COLOR = {
   rea: "rgb(247, 79, 79)",
   cov: "rgb(15, 148, 0)",
   pre: "rgb(227, 227, 82)",
@@ -58,6 +63,12 @@ export const DRIVER_STATUS_COLOR ={
   hol: "rgb(97, 97, 97)",
   res: "rgb(247, 176, 52)",
   ina: "rgb(189, 189, 189)",
+}
+
+export const TRAILER_STATUS = {
+    ius: 'In use',
+    uns: 'Unused',
+    rep: 'Repairing',
 }
   
 export const BUDGET_TYPE = {

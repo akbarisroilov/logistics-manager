@@ -136,6 +136,13 @@ export const getUsername = (id, names) => {
   return "";
 };
 
+export const getNumber = (id, names) => {
+  for (let name of names) {
+    if (name.id === id) return name.number;
+  }
+  return "";
+}
+
 export const getChoice = (choice, choices) => {
   let found = "*not found";
   Object.keys(choices).forEach((ch) => {

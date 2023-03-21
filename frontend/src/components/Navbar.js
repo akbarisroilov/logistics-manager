@@ -58,6 +58,12 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
+            <NavLink className="link" to={"/trailers"}>
+              <FiUsers />
+              Trailers
+            </NavLink>
+          </li>
+          <li>
             <NavLink className="link" to={"/carriers"}>
               <FiUsers />
               Carriers

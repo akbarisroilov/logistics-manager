@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import Login from "./components/Login";
 import Missing from "./components/Missing";
 import GrossBoard from "./components/pages/GrossBoard/GrossBoard";
+import Trailers from "./components/pages/Trailers/Trailers";
 import Users from "./components/pages/Users/Users";
 import Drivers from "./components/pages/Drivers/Drivers";
 import Driver from "./components/pages/Drivers/Driver";
@@ -48,6 +49,7 @@ const App = () => {
             <Route path="drivers" element={<Drivers />} />
             <Route path="driver/:id" element={<Driver />} />
             <Route path="users" element={<Users />} />
+            <Route path="trailers" element={<Trailers />} />
             <Route path="carriers" element={<Carriers />} />
             <Route path="actions" element={<Actions />} />
             <Route path="logs" element={<Logs />} />

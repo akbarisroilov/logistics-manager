@@ -1,5 +1,5 @@
 import datetime
-from core.constants import WEEKDAYS
+from core.constants import CONSTANTS
 from core.models import Appuser
 from .models import Action
 
@@ -16,7 +16,7 @@ def check_permission(user, permission_type: str, model_name: str):
 def get_week_start():
     now = datetime.datetime.now()
     now = now.replace(hour=0, minute=0, second=0)
-    days = WEEKDAYS.index(now.strftime("%A")) + 1  # starting date from Saturday
+    days = CONSTANTS.WEEKDAYS.index(now.strftime("%A")) + 1  # starting date from Saturday
     week_start = now - datetime.timedelta(days=days)
     return week_start
 

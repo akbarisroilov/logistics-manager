@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from core.models import User
 from core.serializers import UserSerializer
-from .models import Driver, EditDriver, Load, EditLoad, Carrier, EditCarrier
+from .models import Driver, EditDriver, Load, EditLoad, Carrier, EditCarrier, Trailer, EditTrailer
 
 
 class DriverSerializer(ModelSerializer):
@@ -171,6 +171,37 @@ class LoadSerializerOld (ModelSerializer):
         instance.is_edited = True
         instance.save()
         return instance
+
+
+class TrailerSerializer(ModelSerializer):
+    class Meta:
+        model = Trailer
+        fields = '__all__'
+
+    def update(self, instance: Trailer, validated_data):
+        # updating
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        # saving updates
+        request_user_id = self.initial_data.get('request_user_id')
+        edit = EditTrailer()
+        for attr, value in validated_data.items():
+            setattr(edit, attr, value)
+        edit.trailer_id = instance.id
+        edit.user_id = request_user_id
+        edit.save()
+        return instance
+
+class TrailerListSerializer(ModelSerializer):
+    class Meta:
+        model = Trailer
+        fields = ['id', 'number']
+
+class TrailerEditSerializer(ModelSerializer):
+    class Meta:
+        model = EditDriver
+        fields = '__all__'
 
 
 # class EditLogSerializer (ModelSerializer):

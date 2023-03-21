@@ -1,7 +1,7 @@
 from django.db import models
 # from django.conf import settings
 from core.models import User
-from core.constants import DRIVER_TYPE, DEFAULT_DRIVER_TYPE, DRIVER_STATUS, DEFAULT_DRIVER_STATUS, YEARS, DEFAULT_YEAR, STATES, FUEL_TYPE, BUDGET_TYPE, LOAD_STATUS, OPERATIONS, TARGET_NAMES, STATUS_CHOICES, COUNTRIES, TIME_ZONES
+from core.constants import CONSTANTS
 
 ############## carrier ##############
 class BaseCarrier(models.Model):
@@ -30,8 +30,8 @@ class BaseDriver(models.Model):
     # current_load = None
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    driver_type = models.CharField(max_length=3, choices=DRIVER_TYPE, default=DEFAULT_DRIVER_TYPE)
-    status = models.CharField(max_length=3, choices=DRIVER_STATUS, default=DEFAULT_DRIVER_STATUS)
+    driver_type = models.CharField(max_length=3, choices=CONSTANTS.DRIVER_TYPE, default=CONSTANTS.DEFAULT_DRIVER_TYPE)
+    status = models.CharField(max_length=3, choices=CONSTANTS.DRIVER_STATUS, default=CONSTANTS.DEFAULT_DRIVER_STATUS)
     gross_target = models.DecimalField(max_digits=9, decimal_places=2, default=10000.00)
     notes = models.CharField(max_length=255, null=True, blank=True)
     class Meta:
@@ -60,11 +60,11 @@ class BaseVehicle(models.Model):
     unit_number = models.CharField(max_length=10, unique=True)
     make = models.CharField(max_length=15, null=True, blank=True)
     model = models.CharField(max_length=20, null=True, blank=True)
-    year = models.CharField(max_length=3, choices=YEARS, default=DEFAULT_YEAR)
-    license_state = models.CharField(max_length=2, choices=STATES, default='AK')
+    year = models.CharField(max_length=3, choices=CONSTANTS.YEARS, default=CONSTANTS.DEFAULT_YEAR)
+    license_state = models.CharField(max_length=2, choices=CONSTANTS.STATES, default='AK')
     license_number = models.CharField(max_length=20, null=True, blank=True)
     vin_number = models.CharField(max_length=20, null=True)
-    fuel_type = models.CharField(max_length=2, choices=FUEL_TYPE, default='di')
+    fuel_type = models.CharField(max_length=2, choices=CONSTANTS.FUEL_TYPE, default='di')
     notes = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=1)
     class Meta:
@@ -85,9 +85,8 @@ class EditVehicle(BaseVehicle):
 ############## trailer ##############
 class BaseTrailer(models.Model):
     number = models.CharField(max_length=20)
-    note = models.CharField(max_length=255, null=True, blank=True)
+    status = models.CharField(max_length=3, choices=CONSTANTS.TRAILER_STATUS, default=CONSTANTS.DEFAULT_TRAILER_STATUS)
     notes = models.CharField(max_length=255, null=True, blank=True)
-    is_active = models.BooleanField(default=1)
     class Meta:
         abstract = True
 
@@ -110,15 +109,15 @@ class BaseLoad(models.Model):
     original_rate = models.DecimalField(max_digits=9, decimal_places=2)
     current_rate = models.DecimalField(max_digits=9, decimal_places=2)
     total_miles = models.IntegerField()
-    budget_type = models.CharField(max_length=1, choices=BUDGET_TYPE)
+    budget_type = models.CharField(max_length=1, choices=CONSTANTS.BUDGET_TYPE)
     autobooker = models.BooleanField(default=False)
     bol_number = models.CharField(max_length=32, unique=True)
     pcs_number = models.CharField(max_length=16, unique=True)
-    status = models.CharField(max_length=2, choices=LOAD_STATUS)
+    status = models.CharField(max_length=2, choices=CONSTANTS.LOAD_STATUS)
     origin = models.CharField(max_length=128)
-    origin_state = models.CharField(max_length=2, choices=STATES)
+    origin_state = models.CharField(max_length=2, choices=CONSTANTS.STATES)
     destination = models.CharField(max_length=128)
-    destination_state = models.CharField(max_length=2, choices=STATES)
+    destination_state = models.CharField(max_length=2, choices=CONSTANTS.STATES)
     note = models.CharField(max_length=100, null=True, blank=True)
     class Meta:
         abstract = True
@@ -139,9 +138,9 @@ class EditLoad(BaseLoad):
 ############## actions ##############
 class Action(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    operation = models.CharField(max_length=3, choices=OPERATIONS)
+    operation = models.CharField(max_length=3, choices=CONSTANTS.OPERATIONS)
     target = models.BigIntegerField(null=True)
-    target_name = models.CharField(max_length=3, choices=TARGET_NAMES)
+    target_name = models.CharField(max_length=3, choices=CONSTANTS.TARGET_NAMES)
     time = models.DateTimeField(auto_now_add=True)
 
 
