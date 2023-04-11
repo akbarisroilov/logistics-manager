@@ -21,7 +21,8 @@ import "./styles/App.css";
 import "./styles/index.css";
 import "./styles/home.css";
 import "./styles/eld.css";
-import "./styles/charts.css"
+import "./styles/charts.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   return (
@@ -33,18 +34,7 @@ const App = () => {
 
         {/* protected routes */}
         <Route path="/" element={<Layout />}>
-          <Route
-            element={
-              <RequireAuth
-                allowedRoles={[
-                  ROLES.Owner,
-                  ROLES.Admin,
-                  ROLES.Dispatcher,
-                  ROLES.Updater,
-                ]}
-              />
-            }
-          >
+          <Route element={<RequireAuth allowedRoles={[ROLES.Owner, ROLES.Admin, ROLES.Dispatcher, ROLES.Updater]} />}>
             <Route path="gross-board" element={<GrossBoard />} />
             <Route path="drivers" element={<Drivers />} />
             <Route path="driver/:id" element={<Driver />} />
@@ -55,9 +45,7 @@ const App = () => {
             <Route path="logs" element={<Logs />} />
             <Route path="logs/:id/:date" element={<Log />} />
           </Route>
-          <Route
-            element={<RequireAuth allowedRoles={[ROLES.Owner, ROLES.Admin]} />}
-          >
+          <Route element={<RequireAuth allowedRoles={[ROLES.Owner, ROLES.Admin]} />}>
             <Route path="accounting" element={<Accounting />} />
             <Route path="driver-gross" element={<DriversGross />} />
           </Route>

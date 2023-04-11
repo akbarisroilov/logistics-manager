@@ -6,3 +6,5 @@ uenv
 celerybeat-schedule
 
 **/__pycache__/
+
+samsara

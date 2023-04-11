@@ -25,7 +25,7 @@ const ControlBar = () => {
   return (
     <Style.ControlBar>
       <div className="row">
-        <div className="row" style={{width: "80px"}}>
+        <div className="row" style={{ width: "80px" }}>
           <TbUser />
           <p>{auth.username}</p>
         </div>

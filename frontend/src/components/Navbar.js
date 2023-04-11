@@ -3,11 +3,7 @@ import { NavLink } from "react-router-dom";
 import logo from "../images/logo.png";
 // importing icons
 import { FiLogOut, FiUsers } from "react-icons/fi";
-import {
-  RiExchangeDollarLine,
-  RiLineChartLine,
-  RiAdminLine,
-} from "react-icons/ri";
+import { RiExchangeDollarLine, RiLineChartLine, RiAdminLine } from "react-icons/ri";
 import { HiOutlineKey } from "react-icons/hi";
 import { BsArchive, BsCalculator } from "react-icons/bs";
 
@@ -60,7 +56,7 @@ const Navbar = () => {
           <li>
             <NavLink className="link" to={"/trailers"}>
               <FiUsers />
-              Trailers
+              Assets
             </NavLink>
           </li>
           <li>
